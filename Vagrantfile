@@ -46,8 +46,8 @@ Vagrant.configure("2") do |config|
   #
   config.vm.provider "virtualbox" do |vb|
     # Customize the amount of memory on the VM:
-    vb.memory = "2048"
-    vb.name = "gluhost"
+    vb.memory = "4096"
+    vb.name = "glu"
   end
   #
   # View the documentation for the provider you are using for more
@@ -65,7 +65,9 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update && apt-get upgrade -y
-    apt-get install -y git python-pip
+    apt-get install -y git python-pip default-jdk
+    export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+    export PATH=$PATH:$JAVA_HOME/bin
     sudo pip install sphinx
   SHELL
 end
