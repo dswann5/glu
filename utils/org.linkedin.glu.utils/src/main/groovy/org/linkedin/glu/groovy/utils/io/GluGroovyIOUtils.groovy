@@ -91,8 +91,8 @@ public class GluGroovyIOUtils extends GroovyIOUtils
 
   private static Cipher computeCipher(String password, int mode)
   {
-    SecretKeySpec key = new SecretKeySpec(password.getBytes("UTF-8"), "Blowfish")
-    Cipher cipher = Cipher.getInstance("Blowfish")
+    SecretKeySpec key = new SecretKeySpec(password.getBytes("UTF-8"), "AES")
+    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
     cipher.init(mode, key)
     return cipher
   }

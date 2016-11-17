@@ -28,8 +28,8 @@ public class TestEncryptedStreams extends GroovyTestCase
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream()
 
-    // in jdk1.7 Blowfish seems to be limited to 128 bits...
-    String password = "0o9ijht65tgfrdtg"
+    // Use a 256-bit password (generated via SHA-256)
+    String password = "9cbe2655fcb4a502d6ea4edf9a05cb120da9f9b5e290f3b90fc61a28ffffef24"
 
     GluGroovyIOUtils.withStreamToEncrypt(password, baos) { OutputStream os ->
       os << text
