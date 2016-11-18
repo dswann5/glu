@@ -29,8 +29,10 @@ import org.linkedin.groovy.util.io.fs.FileSystem
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream
+import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import java.nio.file.Path
+import java.security.MessageDigest
 
 /**
  * @author yan@pongasoft.com */
@@ -91,9 +93,14 @@ public class GluGroovyIOUtils extends GroovyIOUtils
 
   private static Cipher computeCipher(String password, int mode)
   {
-    SecretKeySpec key = new SecretKeySpec(password.getBytes("UTF-8"), "AES")
-    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-    cipher.init(mode, key)
+    // build the initialization vector.  This example is all zeros, but it
+    // could be any value or generated using a random number generator.
+    def iv = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] as byte[]
+    IvParameterSpec ivspec = new IvParameterSpec(iv)
+    MessageDigest digest = MessageDigest.getInstance("SHA-256")
+    SecretKeySpec key = new SecretKeySpec(digest.digest(password.getBytes("UTF-8")), "AES")
+    Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5Padding")
+    cipher.init(mode, key, ivspec)
     return cipher
   }
 
