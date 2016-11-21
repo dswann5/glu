@@ -30,7 +30,6 @@ public class TestOneThreadPerTaskSubmitter extends GroovyTestCase
 {
   OneThreadPerTaskSubmitter submitter = new OneThreadPerTaskSubmitter()
 
-/**
   public void testSubmitFuture()
   {
     ThreadControl tc = new ThreadControl(Timespan.parse("30s"))
@@ -57,7 +56,6 @@ public class TestOneThreadPerTaskSubmitter extends GroovyTestCase
 
     assertEquals(activeCount, Thread.activeCount())
   }
-*/
 
   public void testSubmitRunnable()
   {
