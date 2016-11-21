@@ -66,8 +66,9 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update && apt-get upgrade -y
     apt-get install -y git python-pip default-jdk
-    export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
-    export PATH=$PATH:$JAVA_HOME/bin
+    echo "export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64" >> ~/.profile
+    echo "export PATH=$PATH:$JAVA_HOME/bin" >> ~/.profile
+    source ~/.profile
     sudo pip install sphinx
   SHELL
 end
