@@ -33,6 +33,7 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import java.nio.file.Path
 import java.security.MessageDigest
+import java.security.SecureRandom
 
 /**
  * @author yan@pongasoft.com */
@@ -93,13 +94,17 @@ public class GluGroovyIOUtils extends GroovyIOUtils
 
   private static Cipher computeCipher(String password, int mode)
   {
-    // build the initialization vector.  This example is all zeros, but it
-    // could be any value or generated using a random number generator.
-    def iv = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] as byte[]
+    Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5Padding")
+
+    // Generate a secure random 128-bit initialization vector
+    SecureRandom randomSecureRandom = new SecureRandom()
+    def iv = new byte[cipher.getBlockSize()]
+    randomSecureRandom.nextBytes(iv)
     IvParameterSpec ivspec = new IvParameterSpec(iv)
+
+    // Hash the password into a 256-bit blob using SHA-256, and use the result as the secret key
     MessageDigest digest = MessageDigest.getInstance("SHA-256")
     SecretKeySpec key = new SecretKeySpec(digest.digest(password.getBytes("UTF-8")), "AES")
-    Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5Padding")
     cipher.init(mode, key, ivspec)
     return cipher
   }
