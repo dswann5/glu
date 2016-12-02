@@ -29,11 +29,15 @@ import org.linkedin.groovy.util.io.fs.FileSystem
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream
+import javax.crypto.SecretKeyFactory
+import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 import java.nio.file.Path
 import java.security.MessageDigest
 import java.security.SecureRandom
+import java.security.spec.KeySpec
 
 /**
  * @author yan@pongasoft.com */
@@ -94,17 +98,39 @@ public class GluGroovyIOUtils extends GroovyIOUtils
 
   private static Cipher computeCipher(String password, int mode)
   {
+    // If we are encrypting, generate a secure random 128-bit initialization vector
+    // Otherwise, use the IV from the cipher
+    //Cipher cipher = Cipher.getInstance("PKCS5Padding")
+    /*if (mode == Cipher.ENCRYPT_MODE) {
+        def seed = [16] as byte[]
+        SecureRandom secureRNG = new SecureRandom(seed)
+    }
+    else if (mode == Cipher.DECRYPT_MODE) {
+        def iv = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] as byte[]//new byte[cipher.getBlockSize()]
+    }
+    else {
+        //raise an error here
+    }*/
+    //secureRNG.nextBytes(iv)
+    //IvParameterSpec ivspec = new IvParameterSpec(iv)
+    //MessageDigest digest = MessageDigest.getInstance("SHA256")
+    //SecretKeySpec key = new SecretKeySpec(digest.digest(password.getBytes("UTF-8")), "AES")
+    //def salt = [256] as byte[]
+    //SecureRandom secureRNG = new SecureRandom()
+    //secureRNG.nextBytes(salt)
+    //KeySpec spec = new PBEKeySpec(password.toCharArray())
+    //SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+    //KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 1, 256)
+    //SecretKey tmp = keyFactory.generateSecret(spec)
+    //SecretKeySpec key = new SecretKeySpec(tmp.getEncoded(), "AES")
+
     Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5Padding")
-
-    // Generate a secure random 128-bit initialization vector
-    SecureRandom randomSecureRandom = new SecureRandom()
-    def iv = new byte[cipher.getBlockSize()]
-    randomSecureRandom.nextBytes(iv)
-    IvParameterSpec ivspec = new IvParameterSpec(iv)
-
-    // Hash the password into a 256-bit blob using SHA-256, and use the result as the secret key
     MessageDigest digest = MessageDigest.getInstance("SHA-256")
     SecretKeySpec key = new SecretKeySpec(digest.digest(password.getBytes("UTF-8")), "AES")
+    // build the initialization vector.  This example is all zeros, but it
+    // could be any value or generated using a random number generator.
+    def iv = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] as byte[]
+    IvParameterSpec ivspec = new IvParameterSpec(iv)
     cipher.init(mode, key, ivspec)
     return cipher
   }

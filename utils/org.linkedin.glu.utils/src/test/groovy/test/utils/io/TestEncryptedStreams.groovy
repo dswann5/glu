@@ -28,8 +28,8 @@ public class TestEncryptedStreams extends GroovyTestCase
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream()
 
-    // Use a 256-bit password (generated via SHA-256)
-    String password = "9cbe2655fcb4a502d6ea4edf9a05cb120da9f9b5e290f3b90fc61a28ffffef24"
+    // Length of AES password does not matter, will be hashed to 256 bits
+    String password = "0o9ijht65tgfrdtg"
 
     GluGroovyIOUtils.withStreamToEncrypt(password, baos) { OutputStream os ->
       os << text
