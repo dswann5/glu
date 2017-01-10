@@ -43,7 +43,7 @@ public class GluGroovyIOUtils extends GroovyIOUtils
   {
     // Read the random IV from the first 16 bytes of the OutputStream
     byte[] iv = initializeIV()
-    inputStream.read(iv, 0, 16)
+    inputStream.read(iv, 0, iv.length)
 
     new CipherInputStream(inputStream, computeCipher(password, Cipher.DECRYPT_MODE, iv))
   }
@@ -57,7 +57,7 @@ public class GluGroovyIOUtils extends GroovyIOUtils
   {
     // Store the random IV as the first 16 bytes of the OutputStream
     byte[] iv = initializeIV()
-    outputStream.write(iv)
+    outputStream.write(iv, 0, iv.length)
 
     new CipherOutputStream(outputStream, computeCipher(password, Cipher.ENCRYPT_MODE, iv))
   }
