@@ -29,15 +29,11 @@ import org.linkedin.groovy.util.io.fs.FileSystem
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream
-import javax.crypto.SecretKeyFactory
-import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 import java.nio.file.Path
 import java.security.MessageDigest
 import java.security.SecureRandom
-import java.security.spec.KeySpec
 
 /**
  * @author yan@pongasoft.com */
