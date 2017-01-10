@@ -45,7 +45,11 @@ public class GluGroovyIOUtils extends GroovyIOUtils
 {
   static InputStream decryptStream(String password, InputStream inputStream)
   {
-    new CipherInputStream(inputStream, computeCipher(password, Cipher.DECRYPT_MODE))
+    // Read the random IV from the first 16 bytes of the OutputStream
+    byte[] iv = initializeIV()
+    inputStream.read(iv, 0, 16)
+
+    new CipherInputStream(inputStream, computeCipher(password, Cipher.DECRYPT_MODE, iv))
   }
 
   static def withStreamToDecrypt(String password, InputStream inputStream, Closure closure)
@@ -55,7 +59,11 @@ public class GluGroovyIOUtils extends GroovyIOUtils
 
   static OutputStream encryptStream(String password, OutputStream outputStream)
   {
-    new CipherOutputStream(outputStream, computeCipher(password, Cipher.ENCRYPT_MODE))
+    // Store the random IV as the first 16 bytes of the OutputStream
+    byte[] iv = initializeIV()
+    outputStream.write(iv)
+
+    new CipherOutputStream(outputStream, computeCipher(password, Cipher.ENCRYPT_MODE, iv))
   }
 
   static def withStreamToEncrypt(String password, OutputStream outputStream, Closure closure)
@@ -95,41 +103,25 @@ public class GluGroovyIOUtils extends GroovyIOUtils
     }
   }
 
-
-  private static Cipher computeCipher(String password, int mode)
+  /**
+   * Generate a secure random 128-bit initialization vector for AES encryption
+   *
+   * @return iv, a 16-byte array of random data
+   */
+  private static initializeIV()
   {
-    // If we are encrypting, generate a secure random 128-bit initialization vector
-    // Otherwise, use the IV from the cipher
-    //Cipher cipher = Cipher.getInstance("PKCS5Padding")
-    /*if (mode == Cipher.ENCRYPT_MODE) {
-        def seed = [16] as byte[]
-        SecureRandom secureRNG = new SecureRandom(seed)
-    }
-    else if (mode == Cipher.DECRYPT_MODE) {
-        def iv = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] as byte[]//new byte[cipher.getBlockSize()]
-    }
-    else {
-        //raise an error here
-    }*/
-    //secureRNG.nextBytes(iv)
-    //IvParameterSpec ivspec = new IvParameterSpec(iv)
-    //MessageDigest digest = MessageDigest.getInstance("SHA256")
-    //SecretKeySpec key = new SecretKeySpec(digest.digest(password.getBytes("UTF-8")), "AES")
-    //def salt = [256] as byte[]
-    //SecureRandom secureRNG = new SecureRandom()
-    //secureRNG.nextBytes(salt)
-    //KeySpec spec = new PBEKeySpec(password.toCharArray())
-    //SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
-    //KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 1, 256)
-    //SecretKey tmp = keyFactory.generateSecret(spec)
-    //SecretKeySpec key = new SecretKeySpec(tmp.getEncoded(), "AES")
+    byte[] iv = new byte[16]
+    SecureRandom secureRNG = new SecureRandom()
+    secureRNG.nextBytes(iv)
+    return iv
+  }
 
+  private static Cipher computeCipher(String password, int mode, byte[] iv)
+  {
     Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5Padding")
+
     MessageDigest digest = MessageDigest.getInstance("SHA-256")
     SecretKeySpec key = new SecretKeySpec(digest.digest(password.getBytes("UTF-8")), "AES")
-    // build the initialization vector.  This example is all zeros, but it
-    // could be any value or generated using a random number generator.
-    def iv = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] as byte[]
     IvParameterSpec ivspec = new IvParameterSpec(iv)
     cipher.init(mode, key, ivspec)
     return cipher
