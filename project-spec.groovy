@@ -25,7 +25,7 @@ spec = [
     bootstrap: '2.3.1',
     grails: '2.5.0',
     groovy: '2.4.3',
-    jetty: '8.1.10.v20130312', // '9.0.0.v20130308' (cannot use 9 -> requires jdk 1.7)
+    jetty: '8.1.21.v20160908', // '9.0.0.v20130308' (cannot use 9 -> requires jdk 1.7)
     utilsMisc: '2.1.0',
     utilsZookeeper: '2.1.0',
     restlet: '2.1.7',
