@@ -616,16 +616,15 @@ class AgentMain implements LifecycleListener, Configurable
       params.add('truststorePath', truststore.path)
       params.add('truststorePassword', getPassword(_config, "${prefix}.agent.truststorePassword"))
 
+      // ssl settings
       params.add('sslContextFactory', 'org.restlet.ext.ssl.DefaultSslContextFactory')
+      params.add('enabledProtocols', 'TLSv1.2')
+      params.add('enabledCipherSuites', 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256')
 
       params.add('needClientAuthentication', 'true')
 
       params.add('defaultThreads',
                  Config.getOptionalString(_config, "${prefix}.agent.rest.server.defaultThreads", '3'))
-
-      params.add('enabledProtocols', 'TLSv1.2')
-
-      params.add('enabledCipherSuites', 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256')
 
       def server = restServerFactory.createRestServer(true, address, port)
       server.setContext(serverContext)

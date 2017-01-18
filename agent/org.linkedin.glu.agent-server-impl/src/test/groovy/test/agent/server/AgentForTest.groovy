@@ -91,6 +91,8 @@ glu.agent.commands.filesystem.dir=\${glu.agent.dataDir}/commands
 
 # security
 glu.agent.sslEnabled=true
+glu.agent.enabledProtocols=TLSv1.2
+glu.agent.enabledCipherSuites=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
 glu.agent.keystorePath=${devKeysDir.canonicalPath}/agent.keystore
 glu.agent.keystoreChecksum=JSHZAn5IQfBVp1sy0PgA36fT_fD
 glu.agent.keystorePassword=nacEn92x8-1

@@ -379,6 +379,8 @@ clientPort=1234
 # Security:
 
 glu.agent.sslEnabled=true
+glu.agent.enabledProtocols=TLSv1.2
+glu.agent.enabledCipherSuites=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
 
 glu.agent.keystorePath=zookeeper:\${glu.agent.zookeeper.root}/agents/fabrics/\${glu.agent.fabric}/config/agent.keystore
 glu.agent.keystoreChecksum=JSHZAn5IQfBVp1sy0PgA36fT_fD
