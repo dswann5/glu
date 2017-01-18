@@ -97,6 +97,11 @@ class HttpsClientHelper extends HttpClientHelper
         params.add(k, v)
     }
 
+    // SSL protocol and cipher configuration
+    getSSLParams(config).each {k, v ->
+        params.add(k, v)
+    }
+
     def sslContextFactory = new DefaultSslContextFactory()
     sslContextFactory.init(params)
 
@@ -118,6 +123,18 @@ class HttpsClientHelper extends HttpClientHelper
     params.put('keystorePassword', getPassword(config, 'keystorePassword'))
     params.put('keyPassword', getPassword(config, 'keyPassword'))
 
+    return params
+  }
+
+  private static Map getSSLParams(def config)
+  {
+    Map params = [:]
+
+    // SSL settings
+    params.put('enabledProtocols',
+               GroovyIOUtils.toFile(Config.getRequiredString(config, 'enabledProtocols')).path)
+    params.put('enabledCipherSuites',
+               GroovyIOUtils.toFile(Config.getRequiredString(config, 'enabledCipherSuites')).path)
     return params
   }
 

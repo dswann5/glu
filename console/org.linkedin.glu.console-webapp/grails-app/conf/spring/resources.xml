@@ -36,6 +36,8 @@
 
         <entry key="truststorePath" value="${console.truststorePath}"/>
         <entry key="truststorePassword" value="${console.truststorePassword}"/>
+        <entry key="enabledProtocols" value="TLSv1.2"/>
+        <entry key="enabledCipherSuites" value="TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256"/>
       </map>
     </constructor-arg>
     <property name="connectionTimeout">
