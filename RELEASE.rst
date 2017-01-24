@@ -14,6 +14,16 @@ Release Notes (Latest)
 
      * Make sure to check the :doc:`Migration Guide <migration-guide>` for tips on how to upgrade glu.
 
+.. _glu-5.6.2:
+
+5.6.2 (2017/01/23)
+------------------
+
+This minor version released for internal use by Daniel Swann of Skyhigh Networks, Inc.
+
+Updated SSL cipher settings to TLSv1.2 for agent/server communication.
+Updated Jetty and Restlet dependency versions
+
 .. _glu-5.6.1:
 
 5.6.1 (2015/06/02)
