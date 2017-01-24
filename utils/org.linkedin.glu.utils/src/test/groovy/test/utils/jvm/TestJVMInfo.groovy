@@ -51,7 +51,6 @@ public class TestJVMInfo extends GroovyTestCase
                  JVMInfo.getJVMInfoAsStringCollection(map))
   }
 
-/**
   public void testGetJVMInfoString()
   {
     def map = [
@@ -66,7 +65,7 @@ public class TestJVMInfo extends GroovyTestCase
     assertEquals("java version \"jv\"\njrn (build jrv)\njvn (build jvv, jvi)",
                  JVMInfo.getJVMInfoString(map))
 
-    assertEquals("java -version".execute().err.text.trim(), JVMInfo.getJVMInfoString())
+    // Not compatible with a OpenJDK `java -version`
+    //assertEquals("java -version".execute().err.text.trim(), JVMInfo.getJVMInfoString())
   }
-*/
 }
