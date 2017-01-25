@@ -21,7 +21,8 @@ Release Notes (Latest)
 
 This minor version released for internal use by Daniel Swann of Skyhigh Networks, Inc.
 
-Updated SSL cipher settings to TLSv1.2 for agent/server communication.
+Updated SSL cipher settings to TLSv1.2 and TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 for agent/server communication.
+Updated unit and integration tests to comply with TLSv1.2
 Updated Jetty and Restlet dependency versions
 
 .. _glu-5.6.1:
