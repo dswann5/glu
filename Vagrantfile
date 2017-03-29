@@ -69,6 +69,7 @@ Vagrant.configure("2") do |config|
     echo "export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64" >> ~/.profile
     echo "export PATH=$PATH:$JAVA_HOME/bin" >> ~/.profile
     source ~/.profile
+    export GRADLE_OPTS=-Xmx512m
     sudo pip install sphinx
   SHELL
 end
